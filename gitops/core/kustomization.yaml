@@ -5,3 +5,4 @@ resources:
   - external-secrets/flux.yaml
   - ingress-nginx/flux.yaml
   - metrics-server/flux.yaml
+  - azure-storage/flux.yaml
