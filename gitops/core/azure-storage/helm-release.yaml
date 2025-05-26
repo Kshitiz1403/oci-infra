@@ -22,6 +22,8 @@ spec:
     node:
       nodeSelector:
         kubernetes.io/os: linux
+      enableBlobfuseProxy: false
+      enableAzureFileProxy: false
     secrets:
       enabled: true
       externalSecret:
