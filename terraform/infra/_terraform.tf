@@ -7,10 +7,10 @@ terraform {
     region                      = "ap-mumbai-1"
     access_key                  = "<Redacted>"
     secret_key                  = "<Redacted>"
-    skip_region_validation     = true
+    skip_region_validation      = true
     skip_credentials_validation = true
-    skip_metadata_api_check    = true
-    force_path_style           = true
+    skip_metadata_api_check     = true
+    force_path_style            = true
   }
 
   required_providers {
