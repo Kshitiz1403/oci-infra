@@ -5,4 +5,4 @@ metadata:
   namespace: kube-system
 spec:
   interval: 5m
-  url: https://kubernetes-sigs.github.io/azurefile-csi-driver 
+  url: https://raw.githubusercontent.com/kubernetes-sigs/azurefile-csi-driver/master/charts 
