@@ -7,7 +7,7 @@ data:
   azure.json: |
     {
         "cloud": "AzurePublicCloud",
-        "tenantId": "403ee5f4-55b3-45cd-8ae2-824be887a075",
+        "tenantId": "",
         "subscriptionId": "fe7391fc-af95-438e-85eb-84b718198313",
         "resourceGroup": "KshitizVMStorageAccount",
         "location": "centralindia",

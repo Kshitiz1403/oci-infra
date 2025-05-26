@@ -4,8 +4,7 @@ metadata:
   name: azure-file
 provisioner: file.csi.azure.com
 parameters:
-  skuName: Premium_LRS
-  protocol: nfs
+  skuName: Standard_LRS
 mountOptions:
   - dir_mode=0777
   - file_mode=0777
