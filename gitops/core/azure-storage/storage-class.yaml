@@ -5,6 +5,7 @@ metadata:
 provisioner: file.csi.azure.com
 parameters:
   skuName: Standard_LRS
+  protocol: smb
 mountOptions:
   - dir_mode=0777
   - file_mode=0777
