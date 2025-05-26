@@ -115,7 +115,8 @@ spec:
             - name: socket-dir
               mountPath: /csi
             - name: azure-config
-              mountPath: /etc/kubernetes
+              mountPath: /etc/kubernetes/azure.json
+              subPath: azure.json
               readOnly: true
       volumes:
         - name: socket-dir
@@ -192,7 +193,8 @@ spec:
               mountPath: /var/lib/kubelet/
               mountPropagation: Bidirectional
             - name: azure-config
-              mountPath: /etc/kubernetes
+              mountPath: /etc/kubernetes/azure.json
+              subPath: azure.json
               readOnly: true
       volumes:
         - name: socket-dir
