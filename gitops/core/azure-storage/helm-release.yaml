@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: azurefile-csi-driver
-      version: v1.29.0
+      version: v1.33.0
       sourceRef:
         kind: HelmRepository
         name: azure-csi-driver
@@ -21,4 +21,10 @@ spec:
       replicas: 1
     node:
       nodeSelector:
-        kubernetes.io/os: linux 
+        kubernetes.io/os: linux
+    secrets:
+      enabled: true
+      externalSecret:
+        enabled: true
+        secretName: azure-secret
+        secretNamespace: kube-system 
