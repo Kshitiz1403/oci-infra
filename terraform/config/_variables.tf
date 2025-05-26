@@ -64,3 +64,39 @@ variable "github_app_pem" {
   sensitive   = true
   type        = string
 }
+
+# Azure Storage Variables
+variable "azure_location" {
+  description = "Azure region where resources will be created"
+  type        = string
+  default     = "Central India"
+}
+
+variable "azure_storage_account_name" {
+  description = "Name of the Azure storage account (must be globally unique)"
+  type        = string
+  default     = "ocik8sstorage123"
+  
+  validation {
+    condition     = can(regex("^[a-z0-9]{3,24}$", var.azure_storage_account_name))
+    error_message = "Storage account name must be between 3 and 24 characters, lowercase letters and numbers only."
+  }
+}
+
+variable "azure_resource_group_name" {
+  description = "Name of the Azure resource group"
+  type        = string
+  default     = "oci-k8s-storage-rg"
+}
+
+variable "azure_share_name" {
+  description = "Name of the Azure file share"
+  type        = string
+  default     = "oci-k8s-share"
+}
+
+variable "azure_share_quota_gb" {
+  description = "Size of the Azure file share in GB"
+  type        = number
+  default     = 100
+}

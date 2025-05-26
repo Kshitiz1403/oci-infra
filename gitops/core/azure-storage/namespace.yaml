@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: azure-storage
+  labels:
+    name: azure-storage
+    app.kubernetes.io/name: azure-storage
+    app.kubernetes.io/managed-by: flux 

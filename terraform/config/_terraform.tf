@@ -14,8 +14,8 @@ terraform {
     key                         = "config/terraform.tfstate"
     endpoint                    = "https://bm6lssjpwvgb.compat.objectstorage.ap-mumbai-1.oraclecloud.com"
     region                      = "ap-mumbai-1"
-    access_key                  = "<Redacted>"
-    secret_key                  = "<Redacted>"
+    access_key                  = "34ee1a07f7a8c974b3280da5500d9736358cd415"
+    secret_key                  = "NXthKTVfFH94NNALcWVUKQtaYDBfzyDe6+l7Dg28mdc="
     skip_region_validation      = true
     skip_credentials_validation = true
     skip_metadata_api_check     = true
@@ -40,6 +40,11 @@ terraform {
     tls = {
       source  = "hashicorp/tls"
       version = ">= 4.0.0"
+    }
+
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "~> 3.0"
     }
   }
 }

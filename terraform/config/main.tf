@@ -28,3 +28,13 @@ module "ingress" {
 
   compartment_id = var.compartment_id
 }
+
+module "azure_storage" {
+  source = "./modules/azure-storage"
+
+  azure_location        = var.azure_location
+  storage_account_name  = var.azure_storage_account_name
+  resource_group_name   = var.azure_resource_group_name
+  share_name           = var.azure_share_name
+  share_quota_gb       = var.azure_share_quota_gb
+}
