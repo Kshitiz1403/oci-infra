@@ -50,11 +50,15 @@ variable "gh_token" {
 variable "github_app_id" {
   description = "GitHub App ID"
   type        = string
+
+  default = "1326003"
 }
 
 variable "github_app_installation_id" {
   description = "GitHub App Installation ID"
   type        = string
+
+  default = "68458163"
 }
 
 variable "github_app_pem" {
