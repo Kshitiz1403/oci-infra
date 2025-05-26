@@ -8,9 +8,9 @@ data:
     {
         "cloud": "AzurePublicCloud",
         "tenantId": "",
-        "subscriptionId": "",
-        "resourceGroup": "",
-        "location": "",
+        "subscriptionId": "fe7391fc-af95-438e-85eb-84b718198313",
+        "resourceGroup": "KshitizVMStorageAccount",
+        "location": "centralindia",
         "useManagedIdentityExtension": false,
         "useInstanceMetadata": false,
         "aadClientId": "",
