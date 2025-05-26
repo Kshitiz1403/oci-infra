@@ -4,4 +4,6 @@ namespace: kube-system
 resources:
   - storage-class.yaml
   - external-secret.yaml
-  - pvc.yaml 
+  - pvc.yaml
+  - helm-repository.yaml
+  - helm-release.yaml 
