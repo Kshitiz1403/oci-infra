@@ -8,8 +8,7 @@ variable "compartment_id" {
 variable "region" {
   description = "OCI region"
   type        = string
-
-  default = "ap-mumbai-1"
+  default     = "ap-mumbai-1"
 }
 
 variable "public_subnet_id" {
@@ -43,8 +42,7 @@ variable "tenancy_id" {
 variable "gh_token" {
   description = "Github PAT for FluxCD"
   type        = string
-
-  default     = "<Redacted>"
+  sensitive   = true
 }
 
 variable "github_app_id" {
