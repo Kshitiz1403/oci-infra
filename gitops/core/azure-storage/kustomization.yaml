@@ -4,5 +4,5 @@ namespace: kube-system
 resources:
   - csi-driver.yaml
   - storage-class.yaml
-  - external-secret.yaml
+  - secret.yaml
   - pvc.yaml 
