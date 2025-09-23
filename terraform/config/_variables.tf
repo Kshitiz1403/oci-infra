@@ -87,7 +87,7 @@ variable "google_drive_token" {
 variable "google_drive_folder_path" {
   description = "Specific folder path in Google Drive to mount (e.g., '/MyFolder/SubFolder'). Leave empty to mount entire drive."
   type        = string
-  default     = ""
+  default     = "kubernetes-rclone"
 }
 
 variable "google_drive_root_folder_id" {
