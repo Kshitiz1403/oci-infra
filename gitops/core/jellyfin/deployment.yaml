@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jellyfin
+  namespace: jellyfin
+  labels:
+    app: jellyfin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jellyfin
+  template:
+    metadata:
+      labels:
+        app: jellyfin
+    spec:
+      containers:
+      - name: jellyfin
+        image: jellyfin/jellyfin:latest
+        ports:
+        - containerPort: 8096
+          name: http
+        - containerPort: 8920
+          name: https
+        - containerPort: 1900
+          name: dlna
+          protocol: UDP
+        - containerPort: 7359
+          name: discovery
+          protocol: UDP
+        env:
+        - name: JELLYFIN_PublishedServerUrl
+          value: "http://jellyfin.local"
+        volumeMounts:
+        - name: jellyfin-config
+          mountPath: /config
+          subPath: config
+        - name: jellyfin-cache
+          mountPath: /cache
+        - name: jellyfin-media
+          mountPath: /media
+          subPath: media
+          readOnly: false
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "500m"
+          limits:
+            memory: "4Gi"
+            cpu: "2000m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8096
+          initialDelaySeconds: 60
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8096
+          initialDelaySeconds: 30
+          periodSeconds: 10
+      volumes:
+      - name: jellyfin-config
+        persistentVolumeClaim:
+          claimName: jellyfin-config-pvc
+      - name: jellyfin-cache
+        emptyDir: {}
+      - name: jellyfin-media
+        persistentVolumeClaim:
+          claimName: jellyfin-media-pvc

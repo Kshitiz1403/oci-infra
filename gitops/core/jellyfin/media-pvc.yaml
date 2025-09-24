@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: jellyfin-media-pvc
+  namespace: jellyfin
+  labels:
+    app: jellyfin
+    component: media-storage
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: gdrive-storage
+  volumeName: jellyfin-media-pv
+  resources:
+    requests:
+      storage: 500Gi
