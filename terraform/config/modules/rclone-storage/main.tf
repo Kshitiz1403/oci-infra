@@ -252,7 +252,7 @@ resource "kubernetes_storage_class" "gdrive_hostpath" {
 
   storage_provisioner = "kubernetes.io/no-provisioner"
   reclaim_policy      = "Retain"
-  volume_binding_mode = "WaitForFirstConsumer"
+  volume_binding_mode = "Immediate"
 }
 
 # PersistentVolume for Google Drive
