@@ -1,0 +1,121 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "openclaw.fullname" . }}
+  labels:
+    {{- include "openclaw.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "openclaw.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "openclaw.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "openclaw.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      initContainers:
+      - name: init-config
+        image: busybox:latest
+        command: ['sh', '-c']
+        args:
+        - |
+          mkdir -p /data/.openclaw
+          if [ ! -f /data/.openclaw/openclaw.json ]; then
+            cp /tmp/config/openclaw.json /data/.openclaw/openclaw.json
+            chown 1000:1000 /data/.openclaw/openclaw.json
+            chmod 600 /data/.openclaw/openclaw.json
+          fi
+        volumeMounts:
+        - name: openclaw-data
+          mountPath: /data
+        - name: config-template
+          mountPath: /tmp/config
+      containers:
+      - name: {{ .Chart.Name }}
+        securityContext:
+          {{- toYaml .Values.securityContext | nindent 12 }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        command: ["node"]
+        args: 
+        - "dist/index.js"
+        - "gateway"
+        - "--bind"
+        - "lan"
+        - "--port"
+        - "{{ .Values.service.targetPort }}"
+        ports:
+        - name: http
+          containerPort: {{ .Values.service.targetPort }}
+          protocol: TCP
+        env:
+        # - name: NODE_OPTIONS
+        #   value: "--max-old-space-size=768"
+        - name: OPENCLAW_CONFIG
+          value: "/home/node/.openclaw/openclaw.json"
+        - name: NODE_ENV
+          value: {{ .Values.env.NODE_ENV | quote }}
+        - name: OPENCLAW_GATEWAY_PORT
+          value: {{ .Values.env.OPENCLAW_GATEWAY_PORT | quote }}
+        - name: OPENCLAW_GATEWAY_BIND
+          value: {{ .Values.env.OPENCLAW_GATEWAY_BIND | quote }}
+        - name: OPENCLAW_GATEWAY_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: {{ include "openclaw.fullname" . }}
+              key: gateway-token
+        {{- if .Values.secrets.anthropicApiKey }}
+        - name: ANTHROPIC_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: {{ include "openclaw.fullname" . }}
+              key: anthropic-api-key
+        {{- end }}
+        {{- if .Values.secrets.openaiApiKey }}
+        - name: OPENAI_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: {{ include "openclaw.fullname" . }}
+              key: openai-api-key
+        {{- end }}
+        volumeMounts:
+        - name: openclaw-data
+          mountPath: /home/node/.openclaw
+          subPath: .openclaw
+        resources:
+          {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+      - name: openclaw-data
+        {{- if .Values.persistence.enabled }}
+        persistentVolumeClaim:
+          claimName: {{ include "openclaw.fullname" . }}
+        {{- else }}
+        emptyDir: {}
+        {{- end }}
+      - name: config-template
+        configMap:
+          name: {{ include "openclaw.fullname" . }}-config
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

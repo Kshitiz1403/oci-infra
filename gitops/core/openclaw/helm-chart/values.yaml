@@ -1,0 +1,53 @@
+replicaCount: 1
+
+image:
+  repository: ghcr.io/openclaw/openclaw
+  pullPolicy: IfNotPresent
+  tag: "2026.1.29"
+
+service:
+  type: ClusterIP
+  port: 18789
+  targetPort: 18789
+
+resources:
+  limits:
+    cpu: 1000m
+    memory: 3Gi
+  requests:
+    cpu: 250m
+    memory: 512Mi
+
+persistence:
+  enabled: true
+  storageClass: "oci-bv"
+  accessMode: ReadWriteOnce
+  size: 10Gi
+
+env:
+  NODE_ENV: production
+  OPENCLAW_GATEWAY_PORT: "18789"
+  OPENCLAW_GATEWAY_BIND: "0.0.0.0"
+
+config:
+  auth: "token"
+  
+  agents:
+    defaults:
+      sandbox:
+        mode: "non-main"
+        scope: "session"
+        workspaceAccess: "ro"
+        docker:
+          network: "bridge"
+          readOnlyRoot: false
+  channels:
+    whatsapp:
+      selfChatMode: true
+      dmPolicy: "allowlist"
+      allowFrom:
+        - "+91XXXXXXXXXX"
+
+secrets:
+  gatewayToken: "your-gateway-token-here"
+  anthropicApiKey: "your-anthropic-api-key-here"
