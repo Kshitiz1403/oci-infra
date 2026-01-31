@@ -38,29 +38,3 @@ variable "tenancy_id" {
 
   default = "ocid1.tenancy.oc1..aaaaaaaazmshxiol4bmgetsexq7e3bgww7jui2o6mdsg62oxpnbmz2pqvfnq"
 }
-
-variable "gh_token" {
-  description = "Github PAT for FluxCD"
-  type        = string
-  sensitive   = true
-}
-
-variable "github_app_id" {
-  description = "GitHub App ID"
-  type        = string
-
-  default = "1326003"
-}
-
-variable "github_app_installation_id" {
-  description = "GitHub App Installation ID"
-  type        = string
-
-  default = "68458163"
-}
-
-variable "github_app_pem" {
-  description = "The contents of the GitHub App private key PEM file"
-  sensitive   = true
-  type        = string
-}
