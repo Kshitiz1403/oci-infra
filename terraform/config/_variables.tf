@@ -64,34 +64,3 @@ variable "github_app_pem" {
   sensitive   = true
   type        = string
 }
-
-# Google Drive variables for rclone storage
-variable "google_drive_client_id" {
-  description = "Google Drive OAuth2 client ID for rclone"
-  type        = string
-  sensitive   = true
-}
-
-variable "google_drive_client_secret" {
-  description = "Google Drive OAuth2 client secret for rclone"
-  type        = string
-  sensitive   = true
-}
-
-variable "google_drive_token" {
-  description = "Google Drive OAuth2 refresh token (JSON format) for rclone"
-  type        = string
-  sensitive   = true
-}
-
-variable "google_drive_folder_path" {
-  description = "Specific folder path in Google Drive to mount (e.g., '/MyFolder/SubFolder'). Leave empty to mount entire drive."
-  type        = string
-  default     = "kubernetes-rclone"
-}
-
-variable "google_drive_root_folder_id" {
-  description = "Google Drive folder ID to use as root (alternative to folder_path). You can get this from the folder URL in Google Drive."
-  type        = string
-  default     = ""
-}

@@ -28,15 +28,3 @@ module "ingress" {
 
   compartment_id = var.compartment_id
 }
-
-module "rclone_storage" {
-  source = "./modules/rclone-storage"
-
-  google_drive_client_id      = var.google_drive_client_id
-  google_drive_client_secret  = var.google_drive_client_secret
-  google_drive_token          = var.google_drive_token
-  google_drive_refresh_token  = var.google_drive_token  # Using the same token as refresh token
-  google_drive_folder_path    = var.google_drive_folder_path
-  google_drive_root_folder_id = var.google_drive_root_folder_id
-}
-
