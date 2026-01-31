@@ -25,6 +25,23 @@ spec:
       serviceAccountName: {{ include "openclaw.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      initContainers:
+      - name: init-config
+        image: busybox:latest
+        command: ['sh', '-c']
+        args:
+        - |
+          mkdir -p /data/.openclaw
+          if [ ! -f /data/.openclaw/openclaw.json ]; then
+            cp /tmp/config/openclaw.json /data/.openclaw/openclaw.json
+            chown 1000:1000 /data/.openclaw/openclaw.json
+            chmod 600 /data/.openclaw/openclaw.json
+          fi
+        volumeMounts:
+        - name: openclaw-data
+          mountPath: /data
+        - name: config-template
+          mountPath: /tmp/config
       containers:
       - name: {{ .Chart.Name }}
         securityContext:
@@ -44,8 +61,8 @@ spec:
           containerPort: {{ .Values.service.targetPort }}
           protocol: TCP
         env:
-        - name: NODE_OPTIONS
-          value: "--max-old-space-size=768"
+        # - name: NODE_OPTIONS
+        #   value: "--max-old-space-size=768"
         - name: OPENCLAW_CONFIG
           value: "/home/node/.openclaw/openclaw.json"
         - name: NODE_ENV
@@ -75,10 +92,8 @@ spec:
         {{- end }}
         volumeMounts:
         - name: openclaw-data
-          mountPath: {{ .Values.persistence.mountPath }}
-        - name: config
-          mountPath: /home/node/.openclaw/openclaw.json
-          subPath: openclaw.json
+          mountPath: /home/node/.openclaw
+          subPath: .openclaw
         resources:
           {{- toYaml .Values.resources | nindent 12 }}
       volumes:
@@ -89,7 +104,7 @@ spec:
         {{- else }}
         emptyDir: {}
         {{- end }}
-      - name: config
+      - name: config-template
         configMap:
           name: {{ include "openclaw.fullname" . }}-config
       {{- with .Values.nodeSelector }}

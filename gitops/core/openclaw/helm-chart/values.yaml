@@ -5,58 +5,24 @@ image:
   pullPolicy: IfNotPresent
   tag: "2026.1.29"
 
-imagePullSecrets: []
-nameOverride: ""
-fullnameOverride: ""
-
-serviceAccount:
-  create: true
-  annotations: {}
-  name: ""
-
-podAnnotations: {}
-
-podSecurityContext:
-  fsGroup: 1000
-
-securityContext:
-  runAsNonRoot: true
-  runAsUser: 1000
-  capabilities:
-    drop:
-    - ALL
-  readOnlyRootFilesystem: false
-
 service:
   type: ClusterIP
   port: 18789
   targetPort: 18789
 
-ingress:
-  enabled: false
-  className: "nginx"
-  annotations: {}
-  hosts:
-    - host: openclaw.local
-      paths:
-        - path: /
-          pathType: Prefix
-  tls: []
-
 resources:
   limits:
-    cpu: 2000m
-    memory: 4Gi
+    cpu: 1000m
+    memory: 3Gi
   requests:
-    cpu: 500m
-    memory: 2Gi
+    cpu: 250m
+    memory: 512Mi
 
 persistence:
   enabled: true
-  storageClass: ""
+  storageClass: "oci-bv"
   accessMode: ReadWriteOnce
   size: 10Gi
-  mountPath: /home/node/.openclaw
 
 env:
   NODE_ENV: production
@@ -71,21 +37,17 @@ config:
       sandbox:
         mode: "non-main"
         scope: "session"
-        workspaceAccess: "none"
+        workspaceAccess: "ro"
         docker:
-          network: "none"
+          network: "bridge"
           readOnlyRoot: false
-      
-  channels: {}
+  channels:
+    whatsapp:
+      selfChatMode: true
+      dmPolicy: "allowlist"
+      allowFrom:
+        - "+91XXXXXXXXXX"
 
 secrets:
-  gatewayToken: ""
-  
-  anthropicApiKey: ""
-  openaiApiKey: ""
-
-nodeSelector: {}
-
-tolerations: []
-
-affinity: {}
+  gatewayToken: "your-gateway-token-here"
+  anthropicApiKey: "your-anthropic-api-key-here"

@@ -22,5 +22,8 @@ data:
             }
           }
         }
-      }
+      },
+      {{- if .Values.config.channels }}
+      "channels": {{- .Values.config.channels | toJson | nindent 8 }}
+      {{- end }}
     }
