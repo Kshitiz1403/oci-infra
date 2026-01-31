@@ -1,0 +1,91 @@
+replicaCount: 1
+
+image:
+  repository: ghcr.io/openclaw/openclaw
+  pullPolicy: IfNotPresent
+  tag: "2026.1.29"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext:
+  fsGroup: 1000
+
+securityContext:
+  runAsNonRoot: true
+  runAsUser: 1000
+  capabilities:
+    drop:
+    - ALL
+  readOnlyRootFilesystem: false
+
+service:
+  type: ClusterIP
+  port: 18789
+  targetPort: 18789
+
+ingress:
+  enabled: false
+  className: "nginx"
+  annotations: {}
+  hosts:
+    - host: openclaw.local
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+
+resources:
+  limits:
+    cpu: 2000m
+    memory: 4Gi
+  requests:
+    cpu: 500m
+    memory: 2Gi
+
+persistence:
+  enabled: true
+  storageClass: ""
+  accessMode: ReadWriteOnce
+  size: 10Gi
+  mountPath: /home/node/.openclaw
+
+env:
+  NODE_ENV: production
+  OPENCLAW_GATEWAY_PORT: "18789"
+  OPENCLAW_GATEWAY_BIND: "0.0.0.0"
+
+config:
+  auth: "token"
+  
+  agents:
+    defaults:
+      sandbox:
+        mode: "non-main"
+        scope: "session"
+        workspaceAccess: "none"
+        docker:
+          network: "none"
+          readOnlyRoot: false
+      
+  channels: {}
+
+secrets:
+  gatewayToken: ""
+  
+  anthropicApiKey: ""
+  openaiApiKey: ""
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

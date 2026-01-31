@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "openclaw.fullname" . }}-config
+  labels:
+    {{- include "openclaw.labels" . | nindent 4 }}
+data:
+  openclaw.json: |
+    {
+      "gateway": {
+        "mode": "local"
+      },
+      "agents": {
+        "defaults": {
+          "sandbox": {
+            "mode": {{ .Values.config.agents.defaults.sandbox.mode | quote }},
+            "scope": {{ .Values.config.agents.defaults.sandbox.scope | quote }},
+            "workspaceAccess": {{ .Values.config.agents.defaults.sandbox.workspaceAccess | quote }},
+            "docker": {
+              "network": {{ .Values.config.agents.defaults.sandbox.docker.network | quote }},
+              "readOnlyRoot": {{ .Values.config.agents.defaults.sandbox.docker.readOnlyRoot }}
+            }
+          }
+        }
+      }
+    }

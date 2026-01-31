@@ -1,0 +1,15 @@
+apiVersion: v2
+name: openclaw
+description: OpenClaw - Personal AI Assistant
+type: application
+version: 1.0.0
+keywords:
+  - ai
+  - assistant
+  - chatbot
+  - openclaw
+home: https://openclaw.ai
+sources:
+  - https://github.com/openclaw/openclaw
+maintainers:
+  - name: OpenClaw Community
