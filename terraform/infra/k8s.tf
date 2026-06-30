@@ -43,7 +43,7 @@ data "oci_containerengine_node_pool_option" "node_pool_options" {
 
 data "jq_query" "latest_image" {
   data  = jsonencode({ sources = jsondecode(jsonencode(data.oci_containerengine_node_pool_option.node_pool_options.sources)) })
-  query = "[.sources[] | select(.source_name | test(\".*aarch.*OKE-${replace(var.kubernetes_version, "v", "")}.*\")?) .image_id][0]"
+  query = "[.sources[] | select(.source_name | test(\".*aarch.*OKE-${replace(var.kubernetes_version, "v", "")}-.*\")?) .image_id][0]"
 }
 
 resource "oci_containerengine_node_pool" "k8s_node_pool" {
