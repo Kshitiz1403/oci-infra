@@ -31,5 +31,5 @@ variable "kubernetes_worker_nodes" {
   description = "Worker node count"
   type        = number
 
-  default = 0
+  default = 1
 }
